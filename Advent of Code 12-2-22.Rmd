@@ -1,0 +1,124 @@
+---
+title: "Advent of Code 12-2-22"
+output: html_document
+date: "2022-12-02"
+---
+Note: I think there's going to be a lot more elegant solutions to this, but this is what I came up with
+
+Set up point rewards
+```{r setup, include=FALSE}
+win <- 6
+draw <- 3
+loss <- 0
+rock <- 1
+paper <- 2
+scissors <- 3
+```
+
+```{r}
+df<-read.table("aoc_input_2.txt", sep=" ")
+colnames(df) <- c("p1", "p2")
+```
+
+calculate score is col 2 is move
+```{r}
+total_points = 0
+for (i in seq(1, nrow(df))){
+  if (df[i,1] == "A"){
+    if (df[i,2] == "X"){
+      #p1 plays rock, p2 plays rock
+      total_points = total_points + draw + rock
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays rock, p2 plays paper
+      total_points = total_points + win + paper
+    }
+    else {
+      #p1 plays rock, p2 plays scissors
+      total_points = total_points + loss + scissors
+    }
+  }
+  else if (df[i,1]=="B"){
+    if (df[i,2] == "X"){
+      #p1 plays paper, p2 plays rock
+      total_points = total_points + loss + rock
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays paper, p2 plays paper
+      total_points = total_points + draw + paper
+    }
+    else {
+      #p1 plays paper, p2 plays scissors
+      total_points = total_points + win + scissors
+    }
+  }
+  else{
+    if (df[i,2] == "X"){
+      #p1 plays scissors, p2 plays rock
+      total_points = total_points + win + rock
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays scissors, p2 plays paper
+      total_points = total_points + loss + paper
+    }
+    else {
+      #p1 plays scissors, p2 plays scissors
+      total_points = total_points + draw + scissors
+    }
+  }
+}
+print("total points:")
+print(total_points)
+```
+
+calculate score if col 2 is outcome
+
+```{r}
+total_points = 0
+for (i in seq(1, nrow(df))){
+  if (df[i,1] == "A"){
+    if (df[i,2] == "X"){
+      #p1 plays rock, result is loss
+      total_points = total_points + loss + scissors
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays rock, result is draw
+      total_points = total_points + draw + rock
+    }
+    else {
+      #p1 plays rock, result is win
+      total_points = total_points + win + paper
+    }
+  }
+  else if (df[i,1]=="B"){
+    if (df[i,2] == "X"){
+      #p1 plays paper, result is loss
+      total_points = total_points + loss + rock
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays paper, result is draw
+      total_points = total_points + draw + paper
+    }
+    else {
+      #p1 plays paper, result is win
+      total_points = total_points + win + scissors
+    }
+  }
+  else{
+    if (df[i,2] == "X"){
+      #p1 plays scissors, result is loss
+      total_points = total_points + loss + paper
+    }
+    else if (df[i,2] == "Y"){
+      #p1 plays scissors, result is draw
+      total_points = total_points + draw + scissors
+    }
+    else {
+      #p1 plays scissors, result is win
+      total_points = total_points + win + rock
+    }
+  }
+}
+print("total points:")
+print(total_points)
+```
