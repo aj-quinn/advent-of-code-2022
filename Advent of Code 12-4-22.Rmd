@@ -1,0 +1,63 @@
+---
+title: "Advent of Code 12-4-22"
+output: html_document
+date: "2022-12-05"
+---
+
+```{r setup, include=FALSE}
+df<-read.table("aoc_input_4.txt", sep=",")
+```
+
+```{r}
+as.integer(sub("-.*", "", df[1,1]))
+as.integer(sub(".*-", "", df[1,1]))
+```
+
+```{r}
+fully_contained = 0
+for (i in seq(1, nrow(df))){
+  low1 <- as.integer(sub("-.*", "", df[i,1]))
+  high1 <- as.integer(sub(".*-", "", df[i,1]))
+  range1 <- high1-low1
+  
+  low2 <- as.integer(sub("-.*", "", df[i,2]))
+  high2 <- as.integer(sub(".*-", "", df[i,2]))
+  range2 <- high2-low2
+  
+  if (range1 == range2){
+    if (low1 == low2){
+      fully_contained <- fully_contained+1
+    }
+  }
+  else if (range1 > range2){
+    if (low1 <= low2 & high1 >= high2){
+      fully_contained <- fully_contained+1
+    }
+  }
+  else {
+    if (low2 <= low1 & high2 >= high1){
+      fully_contained <- fully_contained+1
+    }
+  }
+}
+```
+Any overlap
+
+```{r}
+overlaps <- 0
+for (i in seq(1, nrow(df))){
+  low1 <- as.integer(sub("-.*", "", df[i,1]))
+  high1 <- as.integer(sub(".*-", "", df[i,1]))
+  seq1 <- seq(low1, high1)
+  
+  low2 <- as.integer(sub("-.*", "", df[i,2]))
+  high2 <- as.integer(sub(".*-", "", df[i,2]))
+  seq2 <- seq(low2, high2)
+  
+  if (length(intersect(seq1, seq2))>0){
+    overlaps <- overlaps + 1
+  }
+}
+```
+
+

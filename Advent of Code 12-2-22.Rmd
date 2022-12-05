@@ -3,7 +3,7 @@ title: "Advent of Code 12-2-22"
 output: html_document
 date: "2022-12-02"
 ---
-Note: I think there's going to be a lot more elegant solutions to this, but this is what I came up with
+Note: I think there's going to be a lot more elegant solutions to this, but this is what I came up withe
 
 Set up point rewards
 ```{r setup, include=FALSE}

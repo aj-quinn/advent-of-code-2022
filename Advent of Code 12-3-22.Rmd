@@ -1,0 +1,102 @@
+---
+title: "Advent of Code 12-3-22"
+output: html_document
+date: "2022-12-05"
+---
+
+```{r}
+library(stringr)
+```
+
+
+```{r setup, include=FALSE}
+df<-read.table("aoc_input_3.txt", sep=" ")
+```
+
+```{r}
+scores <- c(
+  a = 1,
+  b = 2,
+  c = 3,
+  d = 4,
+  e = 5,
+  f = 6,
+  g = 7,
+  h = 8,
+  i = 9,
+  j = 10,
+  k = 11,
+  l = 12,
+  m = 13,
+  n = 14,
+  o = 15,
+  p = 16,
+  q = 17,
+  r = 18,
+  s = 19,
+  t = 20,
+  u = 21,
+  v = 22,
+  w = 23,
+  x = 24,
+  y = 25,
+  z = 26
+)
+```
+
+part 1: find total score of all items in both compartments
+```{r}
+total_score = 0
+for (i in seq(1, nrow(df))){
+  total_items <- nchar(df[i,1])
+  compartment1 <- strsplit(substr(df[i,1], 1, total_items/2), "")[[1]]
+  compartment2 <- strsplit(substr(df[i,1], (total_items/2)+1, total_items), "")[[1]]
+  
+  for (item in compartment1){
+    for (second_item in compartment2) {
+      if (item == second_item){
+        if(str_detect(item,"[[:upper:]]")){
+          score <- as.integer(scores[tolower(item)] + 26)
+        }
+        else {
+          score <- as.integer(scores[item])
+        }
+      }
+    }
+  }
+  total_score = total_score + score
+}
+print(total_score)
+```
+
+part 2: find total score of items shared between groups of 3 elves
+```{r}
+id_score <- 0
+index=1
+while (index < nrow(df)){
+  elf1 <- strsplit(df[index, 1], "")[[1]]
+  elf2 <- strsplit(df[index+1, 1], "")[[1]]
+  elf3 <- strsplit(df[index+2, 1], "")[[1]]
+  index <- index + 3
+  
+  for (item1 in elf1){
+    for (item2 in elf2){
+      if (item1 == item2){
+        for(item3 in elf3){
+          if (item1 == item3){
+            if(str_detect(item1,"[[:upper:]]")){
+              score <- as.integer(scores[tolower(item1)] + 26)
+        }
+        else {
+          score <- as.integer(scores[item1])
+        }
+          }
+      }
+      }
+    }
+  }
+  id_score <- id_score + score
+
+}
+```
+
