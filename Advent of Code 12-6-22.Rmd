@@ -1,0 +1,44 @@
+---
+title: "Advent of Code 12-6-22"
+output: html_document
+date: "2022-12-06"
+---
+
+```{r}
+df<-read.table("aoc_input_6.txt")
+```
+```{r}
+transmission <- strsplit(df[1,1],"")[[1]]
+```
+
+```{r}
+for (i in seq(1, length(transmission))){
+  if (i < 4 ){
+    next
+  }
+  stream <- c(transmission[i-3], transmission[i-2], transmission[i-1], transmission[i])
+  if (length(unique(stream)) == 4){
+    character = i
+    break
+  }
+}
+```
+
+```{r}
+for (i in seq(1, length(transmission))){
+  if (i < 14 ){
+    next
+  }
+  stream <- c(transmission[i-13], transmission[i-12], transmission[i-11], transmission[i-10], transmission[i-9], transmission[i-8], transmission[i-7], transmission[i-6], transmission[i-5], transmission[i-4], transmission[i-3], transmission[i-2], transmission[i-1], transmission[i])
+  if (length(unique(stream)) == 14){
+    character2 = i
+    break
+  }
+}
+```
+```
+
+
+
+
+
