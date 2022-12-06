@@ -1,0 +1,61 @@
+---
+title: "Advent of Code 12-5-22"
+output: html_document
+date: "2022-12-06"
+---
+
+```{r setup, include=FALSE}
+stack1 <- c('D', 'T', 'W', 'N', 'L')
+stack2 <- c('H', 'P', 'C')
+stack3 <- c('W', 'P', 'H', 'N', 'D', 'G', 'M', 'J')
+stack4 <- c('C', 'W', 'S', 'N', 'T', 'Q', 'L')
+stack5 <- c('P', 'H', 'C', 'N')
+stack6 <- c('T', 'H', 'N', 'D', 'M', 'W', 'Q', 'B')
+stack7 <- c('M', 'B', 'R', 'J', 'G', 'S', 'L')
+stack8 <- c('Z', 'N', 'W', 'G', 'V', 'B', 'R', 'T')
+stack9 <- c('W', 'G', 'D', 'N', 'P', 'L')
+
+stacks <- list(stack1, stack2, stack3, stack4, stack5, stack6, stack7, stack8, stack9)
+```
+
+Note: They have to be aded in reverse order :(
+```{r}
+move_stack <- function(num, from, to){
+  from<-unlist(from)
+  to<-unlist(to)
+  last_item <- length(from)
+  first_item <- length(from) - num + 1
+  items <- from[first_item:last_item]
+  from <- from[-first_item:-last_item]
+  to <- append(to, items)
+  return(list(from = from, to = to))
+}
+```
+
+```{r}
+library(tidyverse)
+df <- read.table("aoc_input_5.txt")
+df <- df %>%
+  select(V2, V4, V6) %>%
+  rename(num = V2,
+         from = V4,
+         to = V6) 
+```
+
+```{r}
+for (i in seq(1, nrow(df))){
+  print(i)
+  from <- stacks[df[i,2]]
+  to <- stacks[df[i,3]]
+  movement <- move_stack(df[i,1], stacks[df[i,2]], stacks[df[i,3]])
+  #print(movement$from)
+  #print(movement$to)
+  #print(stacks[df[i,2]])
+  print(stacks)
+  stacks[df[i,2]] <- movement$from
+  stacks[df[i,3]] <-movement$to
+  print(stacks)
+
+}
+```
+
