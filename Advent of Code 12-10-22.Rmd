@@ -1,0 +1,50 @@
+---
+title: "Advent of Code 12-10-22"
+output: html_document
+date: "2022-12-12"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+options(scipen = 999)
+df<- df<-read.table("aoc_input_10.txt", sep=",")
+```
+
+```{r}
+cycle=0
+X=1
+cycle_values <- list()
+for (i in seq(1, nrow(df))){
+  cycle=cycle+1
+  if(cycle == 20 | cycle == 60 | cycle == 100 | cycle == 140 | cycle ==180 | cycle ==220){
+    X = unlist(X*cycle)
+  }
+  if(cycle == 20 | cycle == 60 | cycle == 100 | cycle == 140 | cycle == 180 | cycle == 220){
+    print(cycle)
+    print(X)
+    cycle_values <- append(cycle_values, X)
+  }
+  
+  if(df[i,1]=="noop"){
+    next
+  }
+  else {
+    cycle = cycle+1
+    if(cycle == 20 | cycle == 60 | cycle == 100 | cycle == 140 | cycle ==180 | cycle ==220){
+    X = unlist(X*cycle)
+  }
+  if(cycle == 20 | cycle == 60 | cycle == 100 | cycle == 140 | cycle == 180 | cycle == 220){
+    print(cycle)
+    print(X)
+    cycle_values <- append(cycle_values, X)
+  }
+    X=unlist(X + parse_number(df[i,1]))
+  }
+  
+}
+```
+
+```{r}
+sum(unlist(cycle_values))
+```
+

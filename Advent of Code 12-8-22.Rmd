@@ -1,0 +1,112 @@
+---
+title: "Advent of Code 12-8-22"
+output: html_document
+date: "2022-12-08"
+---
+
+```{r}
+df<- read.fwf("aoc_input_8.txt", widths = rep(1, each=99))
+```
+
+```{r}
+visible <- 0
+for (i in seq(1, nrow(df))){
+  for (j in seq(1, ncol(df))){
+    if (i==1 | j ==1 | i==nrow(df) | j==ncol(df)){
+      visible<-visible+1
+      next
+    }
+    left<-max(df[i, 1:(j-1)])
+    right<-max(df[i, (j+1):ncol(df)])
+    top<-max(df[1:(i-1), j])
+    bottom<-max(df[(i+1):nrow(df), j])
+    
+    
+    #check for visibility from left
+    if (df[i,j] > left){
+      visible <- visible+1
+    }
+    #check for visibility from right
+    else if (df[i,j] > right){
+      visible <- visible+1
+    }
+    #check for visibility from top
+    else if(df[i,j] > top){
+      visible <- visible+1
+    }
+    #check for visiblity from bottom
+    else if(df[i,j] > bottom){
+      visible<-visible+1
+    }
+  }
+}
+```
+
+
+```{r}
+score <- 0
+for (i in seq(1, nrow(df))){
+  for (j in seq(1, ncol(df))){
+    if (i==1 | j ==1 | i==nrow(df) | j==ncol(df)){
+      next
+    }
+    left<-df[i, 1:(j-1)]
+    right<-df[i, (j+1):ncol(df)]
+    top<-df[1:(i-1), j]
+    bottom<-df[(i+1):nrow(df), j]
+    
+    for (l in seq(length(left), 1)){
+      if (left[l] >= df[i,j]){
+        trees_left <- length(left) - l + 1
+        break
+      }
+      else if (l == 1){
+        trees_left <- length(left)
+      }
+    }
+    
+    for (r in seq(1, length(right))){
+      if (right[r] >= df[i,j]){
+        trees_right <- r
+        break
+      }
+      else if (r == length(right)){
+        trees_right <- r
+      }
+    }
+    
+    for (t in seq(length(top), 1)){
+      if (top[t] >= df[i,j]){
+        trees_top <- length(top) - t + 1
+        break
+      }
+      else if (t == 1){
+        trees_top <- length(top)
+      }
+    }
+    
+    for (b in seq(1, length(bottom))){
+      if (bottom[b] >= df[i,j]){
+        trees_bottom <- b
+        break
+      }
+      else if (b == length(bottom)){
+        trees_bottom <- b
+      }
+    }
+    new_score <- trees_top * trees_bottom * trees_left * trees_right
+    
+    if (new_score > score){
+      score <- new_score
+      print(i)
+      print(j)
+    }
+    
+  }
+}
+```
+
+```{r}
+score
+```
+
